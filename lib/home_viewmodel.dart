@@ -11,6 +11,7 @@ class HomeViewModel extends ChangeNotifier {
   bool isLoding = true;
   String name = "";
   FruitResponse fruitResponse = FruitResponse();
+  List<Fruits> list = [];
 
   Future<void> getListFruits() async {
     final request = FruitRequest(
@@ -20,7 +21,8 @@ class HomeViewModel extends ChangeNotifier {
     final response = await repository.listFruits(request);
     print("response nya: ${response.data}");
     fruitResponse = response.data!;
-    name = response.data?.imagesReferences?.avocado ?? "";
-    print(fruitResponse);
+    name = response.data?.data?.imagesreferences?.avocado ?? "";
+    list = response.data?.data?.fruits ?? [];
+    notifyListeners();
   }
 }

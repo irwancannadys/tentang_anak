@@ -1,82 +1,132 @@
-// class FruitResponse {
-//   Data? data;
-//
-//   FruitResponse();
-//
-//   FruitResponse.fromJson(Map<String, dynamic> json) {
-//     data = json["data"] == null ? null : Data.fromJson(json["data"]);
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> map = <String, dynamic>{};
-//     map["data"] = data?.toJson();
-//     return map;
-//   }
-// }
+import 'dart:convert';
 
-class FruitResponse {
-  ImageReferences? imagesReferences;
-  List<Fruits>? fruits;
-
-  FruitResponse();
-
-  FruitResponse.fromJson(Map<String, dynamic> json) {
-    imagesReferences = json["imagesReferences"] == null ? null : ImageReferences.fromJson(json["imagesReferences"]);
-    fruits = json["fruits"];
+T? asT<T>(dynamic value) {
+  if (value is T) {
+    return value;
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> map = <String, dynamic>{};
-    map["imagesReferences"] = imagesReferences?.toJson();
-    map["fruits"] = fruits;
-    return map;
-  }
+  return null;
 }
 
-class ImageReferences {
+class FruitResponse {
+  FruitResponse({
+    this.data,
+  });
+
+  factory FruitResponse.fromJson(Map<String, dynamic> json) => FruitResponse(
+        data: json['data'] == null
+            ? null
+            : Data.fromJson(asT<Map<String, dynamic>>(json['data'])!),
+      );
+
+  Data? data;
+
+  @override
+  String toString() {
+    return jsonEncode(this);
+  }
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'data': data,
+      };
+}
+
+class Data {
+  Data({
+    this.imagesreferences,
+    this.fruits,
+  });
+
+  factory Data.fromJson(Map<String, dynamic> json) {
+    final List<Fruits>? fruits = json['fruits'] is List ? <Fruits>[] : null;
+    if (fruits != null) {
+      for (final dynamic item in json['fruits']!) {
+        if (item != null) {
+          fruits.add(Fruits.fromJson(asT<Map<String, dynamic>>(item)!));
+        }
+      }
+    }
+    return Data(
+      imagesreferences: json['imagesReferences'] == null
+          ? null
+          : Imagesreferences.fromJson(
+              asT<Map<String, dynamic>>(json['imagesReferences'])!),
+      fruits: fruits,
+    );
+  }
+
+  Imagesreferences? imagesreferences;
+  List<Fruits>? fruits;
+
+  @override
+  String toString() {
+    return jsonEncode(this);
+  }
+
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'imagesReferences': imagesreferences,
+        'fruits': fruits,
+      };
+}
+
+class Imagesreferences {
+  Imagesreferences({
+    this.apple,
+    this.manggo,
+    this.banana,
+    this.avocado,
+    this.melon,
+  });
+
+  factory Imagesreferences.fromJson(Map<String, dynamic> json) =>
+      Imagesreferences(
+        apple: asT<String?>(json['apple']),
+        manggo: asT<String?>(json['manggo']),
+        banana: asT<String?>(json['banana']),
+        avocado: asT<String?>(json['avocado']),
+        melon: asT<String?>(json['melon']),
+      );
+
   String? apple;
   String? manggo;
   String? banana;
   String? avocado;
   String? melon;
 
-  ImageReferences({
-      this.apple, this.manggo, this.banana, this.avocado, this.melon});
-
-  ImageReferences.fromJson(Map<String, dynamic> json) {
-    apple = json["apple"];
-    manggo = json["manggo"];
-    banana = json["banana"];
-    avocado = json["avocado"];
-    melon = json["melon"];
+  @override
+  String toString() {
+    return jsonEncode(this);
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data["apple"] = apple;
-    data["manggo"] = manggo;
-    data["banana"] = banana;
-    data["avocado"] = avocado;
-    data["melon"] = melon;
-    return data;
-  }
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'apple': apple,
+        'manggo': manggo,
+        'banana': banana,
+        'avocado': avocado,
+        'melon': melon,
+      };
 }
 
 class Fruits {
+  Fruits({
+    this.name,
+    this.price,
+  });
+
+  factory Fruits.fromJson(Map<String, dynamic> json) => Fruits(
+        name: asT<String?>(json['name']),
+        price: asT<int?>(json['price']),
+      );
+
   String? name;
   int? price;
 
-  Fruits(this.name, this.price);
-
-  Fruits.fromJson(Map<String, dynamic> json) {
-    name = json["name"];
-    price = json["price"];
+  @override
+  String toString() {
+    return jsonEncode(this);
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data["name"] = name;
-    data["price"] = price;
-    return data;
-  }
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'name': name,
+        'price': price,
+      };
 }

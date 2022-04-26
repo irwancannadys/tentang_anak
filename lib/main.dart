@@ -17,36 +17,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // return MultiProvider(
-    //     providers: [
-    //       ChangeNotifierProvider(create: (_)=> HomeViewModel())
-    //     ],
-    //     child: MaterialApp(
-    //       debugShowCheckedModeBanner: false,
-    //       title: 'Tentang Anak',
-    //       theme: ThemeData(
-    //         primarySwatch: Colors.blue,
-    //       ),
-    //       home: const HomeScreen(),
-    //     ));
     return MultiProvider(
       providers: [
         Provider<Repository>.value(
-            value: Repository(
-                ApiService(DioClient(apiBaseUrl: Constant.API_BASE_URL))))
+          value: Repository(
+            ApiService(
+              DioClient(apiBaseUrl: Constant.API_BASE_URL),
+            ),
+          ),
+        )
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Tentang Anak',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const HomeScreen(),
-      ),
-    );
-    return Provider<Repository>.value(
-      value:
-          Repository(ApiService(DioClient(apiBaseUrl: Constant.API_BASE_URL))),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Tentang Anak',
